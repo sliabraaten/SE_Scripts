@@ -24,7 +24,7 @@ namespace IngameScript
     {
         IMyExtendedPistonBase leftPistonX, leftPistonY, rightPistonX, rightPistonY;
         IMyLandingGear rightMagPlate, leftMagPlate;
-        bool leftLegActive;
+        bool leftLegActive, legLock;
 
         public Program()
         {
@@ -58,13 +58,16 @@ namespace IngameScript
 
             if (leftLegActive)
             {
-                StepLeg(leftPistonX, leftPistonY, leftMagPlate, rightMagPlate);
-                ResetLeg(rightPistonX, rightPistonY);
+                //todo handle leg not locking and error 
+                legLock = StepLeg(leftPistonX, leftPistonY, leftMagPlate, rightMagPlate);
+                if(legLock)
+                    ResetLeg(rightPistonX, rightPistonY);
             }
             else
             {
-                StepLeg(rightPistonX, rightPistonY, rightMagPlate, leftMagPlate);
-                ResetLeg(leftPistonX, leftPistonY);
+                legLock = StepLeg(rightPistonX, rightPistonY, rightMagPlate, leftMagPlate);
+                if(legLock)
+                    ResetLeg(leftPistonX, leftPistonY);
             }
             leftLegActive = !leftLegActive;
 
